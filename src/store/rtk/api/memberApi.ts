@@ -120,6 +120,16 @@ export interface isOnlineResponse {
     data?: User;
 }
 
+export interface UpdatePasswordPayload {
+    newPassword: string;
+}
+
+export interface UpdatePasswordResponse {
+    success: boolean;
+    message: string;
+    data?: any;
+}
+
 export const memberApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         createMember: builder.mutation<CreateMemberResponse, CreateMemberPayload>({
@@ -243,6 +253,18 @@ export const memberApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["Member"],
         }),
+
+        updatePasswordFromAdmin: builder.mutation<
+            UpdatePasswordResponse,
+            { userId: string | number; payload: UpdatePasswordPayload }
+        >({
+            query: ({ userId, payload }) => ({
+                url: `/user/update-password-from-admin/${userId}`,
+                method: "PATCH",
+                body: payload,
+            }),
+            invalidatesTags: ["Member"],
+        }),
     }),
 });
 
@@ -256,4 +278,5 @@ export const {
     useUpdateOrderRoundMutation,
     useUpdateScoreMutation,
     useFreezeWithdrawMutation,
+    useUpdatePasswordFromAdminMutation,
 } = memberApi;

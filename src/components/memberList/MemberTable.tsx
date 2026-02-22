@@ -40,7 +40,9 @@ import { AddScoreDialog } from "../dialog/AddScoreDialog";
 import { FreezeWithdrawDialog } from "../dialog/FreezeWithdrawDialog";
 import { ViewWithdrawalAddressDialog } from "../dialog/ViewWithdrawalAddressDialog";
 import { UpdateWithdrawalAddressDialog } from "../dialog/UpdateWithdrawalAddressDialog";
+import { UpdatePasswordDialog } from "../dialog/UpdatePasswordDialog";
 import { useUpdateWithdrawalAddressMutation } from "@/store/rtk/api/withdrawApi";
+import { useUpdatePasswordFromAdminMutation } from "@/store/rtk/api/memberApi";
 
 interface PaginationInfo {
     currentPage: number;
@@ -86,6 +88,8 @@ const MemberTable = ({
     const [selectedUserForWithdrawalView, setSelectedUserForWithdrawalView] = useState<User | null>(null);
     const [viewWithdrawalDialogOpen, setViewWithdrawalDialogOpen] = useState(false);
     const [updateWithdrawalDialogOpen, setUpdateWithdrawalDialogOpen] = useState(false);
+    const [selectedUserForPassword, setSelectedUserForPassword] = useState<User | null>(null);
+    const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState(false);
 
     const [updateScore, { isLoading: isUpdatingScore }] = useUpdateScoreMutation();
     const [updateOrderAmount, { isLoading: isUpdatingOrderAmount }] = useUpdateOrderAmountSlotMutation();
@@ -93,6 +97,7 @@ const MemberTable = ({
     const [updateOrderRound, { isLoading: isUpdatingRound }] = useUpdateOrderRoundMutation();
     const [freezeWithdraw, { isLoading: isFreezingWithdraw }] = useFreezeWithdrawMutation();
     const [updateWithdrawalAddress, { isLoading: isUpdatingWithdrawalAddress }] = useUpdateWithdrawalAddressMutation();
+    const [updatePassword, { isLoading: isUpdatingPassword }] = useUpdatePasswordFromAdminMutation();
 
     const closeDropdown = () => setOpenDropdownUserId(null);
 
@@ -285,6 +290,25 @@ const MemberTable = ({
             setSelectedUserForWithdrawalView(null);
         } catch (err: any) {
             toast.error(err?.data?.message || "Failed to update withdrawal address");
+        }
+    };
+
+    const handleUpdatePassword = async (userId: string | number, newPassword: string) => {
+        console.log("handleUpdatePassword in MemberTable", { userId, newPasswordLength: newPassword.length });
+        try {
+            const result = await updatePassword({
+                userId,
+                payload: { newPassword },
+            }).unwrap();
+            console.log("Password update success:", result);
+
+            toast.success("Password updated successfully.");
+
+            setUpdatePasswordDialogOpen(false);
+            setSelectedUserForPassword(null);
+        } catch (err: any) {
+            console.error("Password update error:", err);
+            toast.error(err?.data?.message || "Failed to update password");
         }
     };
 
@@ -522,6 +546,19 @@ const MemberTable = ({
                         >
                             Set the user order amount
                         </button>
+                        <button
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-muted rounded-b-md"
+                            onClick={() => {
+                                closeDropdown();
+                                const user = data.find(u => u.userId === openDropdownUserId);
+                                if (user) {
+                                    setSelectedUserForPassword(user);
+                                    setUpdatePasswordDialogOpen(true);
+                                }
+                            }}
+                        >
+                            Change Password
+                        </button>
                     </div>
                 </>
             )}
@@ -671,6 +708,13 @@ const MemberTable = ({
                 user={selectedUserForWithdrawalView}
                 onConfirm={handleUpdateWithdrawalAddress}
                 isLoading={isUpdatingWithdrawalAddress}
+            />
+            <UpdatePasswordDialog
+                open={updatePasswordDialogOpen}
+                onOpenChange={setUpdatePasswordDialogOpen}
+                user={selectedUserForPassword}
+                onConfirm={handleUpdatePassword}
+                isLoading={isUpdatingPassword}
             />
         </div>
     );
