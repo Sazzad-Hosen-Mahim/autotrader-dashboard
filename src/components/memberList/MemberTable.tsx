@@ -32,7 +32,7 @@ import {
     useUpdateScoreMutation,
     useFreezeWithdrawMutation
 } from "@/store/rtk/api/memberApi";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { FreezeMemberDialog } from "../dialog/FreezeMemberDialog";
 import { SetOrderAmountDialog } from "../dialog/SetOrderAmountDialog";
 import { SetOrderRoundDialog } from "../dialog/SetOrderRoundDialog";
