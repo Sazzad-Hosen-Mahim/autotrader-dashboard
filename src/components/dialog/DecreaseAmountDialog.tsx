@@ -24,14 +24,14 @@ const DecreaseAmountDialog = ({ open, onOpenChange, onConfirm, userId }: Props) 
     const [amount, setAmount] = useState("");
     const [decreaseAmount, { isLoading }] = useDecreaseAmountMutation();
 
-    console.log(amount, "madafak")
+    // console.log(amount, "madafak")
 
     const handleSubmit = async () => {
         if (!userId) {
             toast.error("User ID is required");
             return;
         }
-        console.log(amount, "madafak")
+        // console.log(amount, "madafak")
 
         if (!amount || parseFloat(amount) <= 0) {
             toast.error("Please enter a valid amount");

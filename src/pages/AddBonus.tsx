@@ -20,7 +20,7 @@ const AddBonus = () => {
             notes
         }
         const res = await addBonus({ userId, payload })
-        console.log(res)
+        // console.log(res)
         if (res.data) {
             toast.success("Bonus added successfully")
             setUserId("")

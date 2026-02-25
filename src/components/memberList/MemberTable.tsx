@@ -294,7 +294,7 @@ const MemberTable = ({
     };
 
     const handleUpdatePassword = async (userId: string | number, newPassword: string) => {
-        console.log("handleUpdatePassword in MemberTable", { userId, newPasswordLength: newPassword.length });
+        // console.log("handleUpdatePassword in MemberTable", { userId, newPasswordLength: newPassword.length });
         try {
             const result = await updatePassword({
                 userId,

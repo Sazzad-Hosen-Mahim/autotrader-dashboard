@@ -57,14 +57,14 @@ const CommodityListTable = ({
     const showPagination = totalPages > 1;
 
     // Debug logging
-    console.log('=== CommodityListTable Pagination ===');
-    console.log('Meta:', meta);
-    console.log('Current page:', currentPage);
-    console.log('Total pages:', totalPages);
-    console.log('Total items:', totalItems);
-    console.log('Show pagination:', showPagination);
-    console.log('Data length:', data.length);
-    console.log('====================================');
+    // console.log('=== CommodityListTable Pagination ===');
+    // console.log('Meta:', meta);
+    // console.log('Current page:', currentPage);
+    // console.log('Total pages:', totalPages);
+    // console.log('Total items:', totalItems);
+    // console.log('Show pagination:', showPagination);
+    // console.log('Data length:', data.length);
+    // console.log('====================================');
 
     return (
         <div className="bg-white dark:bg-primary-dark rounded-lg shadow-sm overflow-hidden">
